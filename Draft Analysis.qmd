@@ -1,0 +1,57 @@
+---
+title: "GOV 51 - Final Project"
+author: "Daniel Cabrera"
+format: pdf
+editor: visual
+---
+
+## Draft Analysis:
+
+```{r}
+#Loading in the data
+library(readxl)
+gss_data <- read_excel("data/raw/result/GSS.xlsx")
+```
+
+```{r}
+#Viewing the data
+names(gss_data)
+```
+
+```{r}
+#Cleaning the dataset
+library(tidyverse)
+
+gss_cleaned <- gss_data |>
+  mutate(sexorient = 
+           case_when(sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") 
+                     ~ "Non-Heterosexual",
+                     sexornt == "Heterosexual or straight" 
+                     ~ "Heterosexual", TRUE ~ NA_character_),
+         discrim = case_when(discwk5 == "Yes" ~ 1, discwk5 == "No" ~ 0, TRUE ~ NA_real_)) |>
+  filter(!is.na(sexorient), !is.na(discrim))
+```
+
+```{r}
+#First Summary Statistics
+gss_cleaned |>
+  group_by(sexorient) |>
+  summarise(n = n(), discrimination_rate = mean(discrim, na.rm = TRUE))
+```
+
+```{r}
+#First Visual
+ggplot(gss_cleaned, aes(x = sexorient, y = discrim)) +
+  stat_summary(fun = mean, geom = "bar") +
+  labs(title = "Workplace Discrimination by Sexual Orientation",
+       x = "Sexual Orientation",
+       y = "Proportion Reporting Discrimination")
+
+```
+
+```{r}
+#Intial Regression
+reg_1 <- glm(discrim ~ sexorient, data = gss_cleaned, family = "binomial")
+
+summary(reg_1)
+```
