@@ -5,11 +5,23 @@ format: pdf
 editor: visual
 ---
 
-## Draft Analysis:
+**GitHub Repository Link:** <https://github.com/daniel-e-cabrera/GOV-51-Final-Project>
+
+**Research Question:**
+
+For my GOV 51 Final Project, I am interested in answering the question: How does sexuality impact an individual’s employment? More specifically, does sexual orientation predict the likelihood of experiencing workplace discrimination?
+
+**Dataset:**
+
+In order to answer these questions, I am using data from the General Social Survey (GSS), which has been collecting survey responses since 1972. Within all years of the collected data, there are 42 individuals who identified as gay, lesbian, or bisexual out of 1,198 total respondents who answered the sexuality question. Key variables I will examine include sexual orientation and whether respondents report experiencing workplace discrimination over the past five years (possible responses include: Yes, No, Inapplicable, No answer, and Do not Know/Cannot Choose). Notably, this is self-reported work discrimination. Additionally, I will include control variables such as race, ethnicity, age, and gender in order to better isolate the association between sexuality and employment-related outcomes.
+
+**Draft Analysis:**
 
 ```{r}
 #Loading in the data
 library(readxl)
+library(ggplot2)
+library(tidyverse)
 gss_data <- read_excel("data/raw/result/GSS.xlsx")
 ```
 
@@ -19,16 +31,17 @@ names(gss_data)
 ```
 
 ```{r}
-#Cleaning the dataset
-library(tidyverse)
-
+#Cleaning the data
 gss_cleaned <- gss_data |>
-  mutate(sexorient = 
-           case_when(sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") 
-                     ~ "Non-Heterosexual",
-                     sexornt == "Heterosexual or straight" 
-                     ~ "Heterosexual", TRUE ~ NA_character_),
-         discrim = case_when(discwk5 == "Yes" ~ 1, discwk5 == "No" ~ 0, TRUE ~ NA_real_)) |>
+  mutate(
+    sexorient = case_when(
+      sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") ~ "Non-Heterosexual",
+      sexornt == "Heterosexual or straight" ~ "Heterosexual",
+      TRUE ~ NA_character_),
+    discrim = case_when(
+      discwk5 == "Yes" ~ 1,
+      discwk5 == "No" ~ 0,
+      TRUE ~ NA_real_)) |>
   filter(!is.na(sexorient), !is.na(discrim))
 ```
 
@@ -36,22 +49,51 @@ gss_cleaned <- gss_data |>
 #First Summary Statistics
 gss_cleaned |>
   group_by(sexorient) |>
-  summarise(n = n(), discrimination_rate = mean(discrim, na.rm = TRUE))
+  summarise(Individuals  = n(),
+            Discrimination_Rate = mean(discrim, na.rm = TRUE))
 ```
 
 ```{r}
 #First Visual
 ggplot(gss_cleaned, aes(x = sexorient, y = discrim)) +
-  stat_summary(fun = mean, geom = "bar") +
+  stat_summary(fun = mean, geom = "bar", fill = "dodgerblue") +
   labs(title = "Workplace Discrimination by Sexual Orientation",
        x = "Sexual Orientation",
        y = "Proportion Reporting Discrimination")
-
+ggsave("outputs/Workplace_Discrimination_by Sexual_Orientation.png", width = 10, height = 6)
 ```
 
 ```{r}
-#Intial Regression
+#Intial Regression | discrim ~ sexorient
 reg_1 <- glm(discrim ~ sexorient, data = gss_cleaned, family = "binomial")
+library(modelsummary)
+modelsummary(reg_1,
+             stars = TRUE,
+             statistic = "({std.error})",
+             title = "Logistic Regression: Workplace Discrimination on Sexual Orientation")
+```
 
-summary(reg_1)
+```{r}
+#Second Regression | discrim ~ sexorient + race + wrkstat
+model <- glm(discrim ~ sexorient + race + wrkstat,
+             data = gss_cleaned,
+             family = "binomial")
+```
+
+```{r}
+library(ggeffects)
+
+prediction <- ggpredict(model, terms = "sexorient")
+```
+
+```{r}
+#Predicted Probability Graph
+ggplot(prediction, aes(x = x, y = predicted)) +
+  geom_point(size = 3, color = "dodgerblue") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.1) +
+  labs(title = "Predicted Probability of Workplace Discrimination",
+       x = "Sexual Orientation",
+       y = "Predicted Probability") +
+  theme_minimal()
+ggsave("outputs/Predicted_Probability_of_Workplace_Discrimination.png", width = 10, height = 6)
 ```
