@@ -1,5 +1,5 @@
 ---
-title: "GOV 51 - Final Project"
+title: "GOV 51 - Final Project: Draft Analysis"
 author: "Daniel Cabrera"
 format: pdf
 editor: visual
@@ -13,35 +13,25 @@ For my GOV 51 Final Project, I am interested in answering the question: How does
 
 **Dataset:**
 
-In order to answer these questions, I am using data from the General Social Survey (GSS), which has been collecting survey responses since 1972. Within all years of the collected data, there are 42 individuals who identified as gay, lesbian, or bisexual out of 1,198 total respondents who answered the sexuality question. Key variables I will examine include sexual orientation and whether respondents report experiencing workplace discrimination over the past five years (possible responses include: Yes, No, Inapplicable, No answer, and Do not Know/Cannot Choose). Notably, this is self-reported work discrimination. Additionally, I will include control variables such as race, ethnicity, age, and gender in order to better isolate the association between sexuality and employment-related outcomes.
+In order to answer these questions, I am using data from the General Social Survey (GSS). Within my specific data subset, set to 2016, there are 42 individuals who identified as gay, lesbian, or bisexual out of 1,198 total respondents who answered the sexuality question and workplace discrimination question. Key variables I will examine include whether respondents report experiencing workplace discrimination over the past five years (possible responses include: Yes, No, Inapplicable, No answer, and Do not Know/Cannot Choose). Notably, this is self-reported work discrimination. Additionally, I will include control variables such as race, ethnicity, age, and gender in order to better isolate the association between sexuality and employment-related outcomes. Additionally, I plan to look at other possible datasets that include open-ended responses related to experiences of workplace discrimination. While the GSS dataset provides a strong and valuable foundation for this analysis, I will also explore whether other datasets may offer complementary data.
 
 **Draft Analysis:**
 
 ```{r}
-#Loading in the data
+#Loading in the data and libraries
 library(readxl)
 library(ggplot2)
 library(tidyverse)
-gss_data <- read_excel("data/raw/result/GSS.xlsx")
-```
 
-```{r}
-#Viewing the data
-names(gss_data)
+gss_data <- read_excel("data/raw/result/GSS.xlsx")
+View(gss_data)
 ```
 
 ```{r}
 #Cleaning the data
 gss_cleaned <- gss_data |>
-  mutate(
-    sexorient = case_when(
-      sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") ~ "Non-Heterosexual",
-      sexornt == "Heterosexual or straight" ~ "Heterosexual",
-      TRUE ~ NA_character_),
-    discrim = case_when(
-      discwk5 == "Yes" ~ 1,
-      discwk5 == "No" ~ 0,
-      TRUE ~ NA_real_)) |>
+  mutate(sexorient = case_when(sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") ~ "Non-Heterosexual", sexornt == "Heterosexual or straight" ~ "Heterosexual", TRUE ~ NA_character_),
+         discrim = case_when(discwk5 == "Yes" ~ 1, discwk5 == "No" ~ 0, TRUE ~ NA_real_)) |>
   filter(!is.na(sexorient), !is.na(discrim))
 ```
 
@@ -53,6 +43,8 @@ gss_cleaned |>
             Discrimination_Rate = mean(discrim, na.rm = TRUE))
 ```
 
+Here, is a simple 2 x 3 table that shows the number of heterosexual sexual individuals (1156) who answered both the questions about sexuality and workplace discrimination, and the number of non-heterosexual individuals (42), defined as answering: gay, lesbian or homosexual, or bisexual. Additionally, for each group (heterosexual and non-heterosexual) we see their discrimination rates (or the mean of their answers to experiencing workplace discrimination over the past five years). For heterosexuals, the discrimination rate was 19.72% and for non-heterosexuals, it was 26.19%.
+
 ```{r}
 #First Visual
 ggplot(gss_cleaned, aes(x = sexorient, y = discrim)) +
@@ -60,8 +52,10 @@ ggplot(gss_cleaned, aes(x = sexorient, y = discrim)) +
   labs(title = "Workplace Discrimination by Sexual Orientation",
        x = "Sexual Orientation",
        y = "Proportion Reporting Discrimination")
-ggsave("outputs/Workplace_Discrimination_by Sexual_Orientation.png", width = 10, height = 6)
+ggsave("outputs/Workplace_Discrimination_by_Sexual_Orientation.png", width = 10, height = 6)
 ```
+
+This simple bar chart, gives us a visual of the proportion of individuals who said yes to experiencing workplace discrimination over the past five years for each group. The results indicate a clear disparity between groups: individuals identifying as non-heterosexual report higher levels of workplace discrimination than their heterosexual counterparts.
 
 ```{r}
 #Intial Regression | discrim ~ sexorient
@@ -71,11 +65,14 @@ modelsummary(reg_1,
              stars = TRUE,
              statistic = "({std.error})",
              title = "Logistic Regression: Workplace Discrimination on Sexual Orientation")
+ggsave("outputs/Logistic_Regression.png", width = 10, height = 6)
 ```
+
+This table presents the results of a logistic regression examining the relationship between sexual orientation and the likelihood of reporting workplace discrimination. The coefficient for non-heterosexual respondents is positive, indicating that individuals who identify as non-heterosexual have higher log-odds of reporting workplace discrimination compared to heterosexual respondents. However, the estimate is not statistically significant, as reflected by the relatively large standard error and lack of significance stars, meaning that we cannot reject the null hypothesis of no effect. This is likely due to small sample size. Ideally, I will find another data set that will be complementary to this one which has larger sample sizes.
 
 ```{r}
 #Second Regression | discrim ~ sexorient + race + wrkstat
-model <- glm(discrim ~ sexorient + race + wrkstat,
+model <- glm(discrim ~ sexorient + race,
              data = gss_cleaned,
              family = "binomial")
 ```
@@ -97,3 +94,5 @@ ggplot(prediction, aes(x = x, y = predicted)) +
   theme_minimal()
 ggsave("outputs/Predicted_Probability_of_Workplace_Discrimination.png", width = 10, height = 6)
 ```
+
+The second figure presents predicted probabilities of reporting workplace discrimination by sexual orientation, based on a logistic regression model accounting for both sexual orientation and race as predictors of reported workplace discrimination. Here, non-heterosexual individuals remain more likely to report experiencing discrimination compared to heterosexual individuals. While the point estimates indicate a higher predicted probability for non-heterosexual respondents, the confidence intervals, particularly for this group, are relatively wide, reflecting greater uncertainty due to a smaller sample size. Nonetheless, the overall pattern shows that sexual orientation is a significant predictor of workplace discrimination.
