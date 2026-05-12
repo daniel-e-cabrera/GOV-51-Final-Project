@@ -1,0 +1,665 @@
+---
+title: "Sentiments and Sexuality: Predicting Workplace Discrimination Using Sexual Orientation"
+author: "Daniel Cabrera"
+format: pdf
+header-includes:
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+  - \floatplacement{table}{H}
+editor: visual
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+# 1. Introduction
+
+### **1.1 Research Question**
+
+For my final project, I examine how sexual orientation predicts experiences in the workplace. More specifically, **does sexual orientation predict the likelihood of reporting workplace discrimination?** And, if so, **which characteristics within the non-heterosexual community are most likely to predict reported workplace discrimination?**
+
+### **1.2 Study Type**
+
+The research questions guiding this project are **predictive**. Rather than establishing that sexual orientation causes reported workplace discrimination, **I am examining whether sexual orientation (and other characteristics) are associated with differences in reported workplace discrimination**. This project is not causal. In other words, individuals are not randomly assigned a sexual orientation, and no experimental design is used. Additionally, it is not purely descriptive, as **I use statistical models to estimate the strength of associations and evaluate predictive power** rather than simply summarizing patterns in the data.
+
+### **1.3 Hypotheses**
+
+Taking these research questions into account, formal hypotheses are as follows:
+
+**H0₁ (null):** There is no difference (effect is equal to 0) in reported workplace discrimination between non-heterosexual and heterosexual individuals.
+
+**H1:** There is a difference (effect is not equal to 0) in reported workplace discrimination between non-heterosexual and heterosexual individuals.
+
+**H2:** Race will have a stronger association with reported workplace discrimination than other demographic characteristics within the non-heterosexual population.
+
+**H3:** Among non-heterosexual individuals, men will report higher levels of workplace discrimination than women.
+
+### 1.4 Overview of Findings and Methods
+
+The analysis proceeds in two stages and produces a consistent set of findings. Using the 2016 General Social Survey, non-heterosexual respondents are approximately 6.3 percentage points more likely to report workplace discrimination than heterosexual respondents, a gap that persists after controlling for race, age, and gender, and is directionally consistent with H1, though it does not reach statistical significance given the small number of non-heterosexual respondents in the sample. Using the 2013 Pew Research Center LGBT Survey, the within-group analysis finds that discrimination is broadly distributed across the non-heterosexual community rather than concentrated among identifiable subgroups, with no single sexual identity, income level, or age group reliably predicting who will report workplace discrimination. Notably, among non-heterosexual individuals, gay men reported higher levels of workplace discrimination than lesbian women; however, this difference was not statistically significant, providing no support for H3. The most robust predictor across all models is outness at work, or more specifically, those who are more open/out about their sexual identity in the workplace report higher discrimination. Additionally, within the non-heterosexual community, race emerges as a significant predictor, with Black and multiracial non-heterosexual respondents facing substantially higher odds of reported discrimination, lending support to H2. Taken together, the findings suggest that workplace discrimination against non-heterosexual individuals reflects broad patterns of bias toward non-heterosexual status rather than any particular characteristic of individuals.
+
+Overall, the findings indicate that sexual orientation is associated with an increased likelihood of reporting workplace discrimination, though this relationship is not statistically distinguishable from zero in the sample, and that within the non-heterosexual population, only race and workplace outness meaningfully predict variation in reported discrimination.
+
+### **1.5 Literature Review**
+
+Same-sex marriage, originally legalized in the United States in 2015 under the Supreme Court’s decision in Obergefell v. Hodges, has come under renewed attack in recent years. Just this past November, Kim Davis, a former county clerk in Kentucky, petitioned the Supreme Court to reconsider its 2015 ruling recognizing a constitutional right to same-sex marriage (Marimow 2025). Although the petition was ultimately denied, it nonetheless sent shock waves down the spines of many queer individuals—including myself. Now, in the midst of an unpredictable right-wing Trump administration, it is increasingly unclear how a non-heteronormative sexual identity may shape one’s lived experience. Previously, legal protections offered a sense of security against such discrimination, but these safeguards now appear to be losing value and importance in the eyes of policymakers (Weistroffer et al. 2025). More than ever, it seems necessary to understand how a non-heterosexual identity may impact someone. In short, times are changing, and queer individuals such as myself may no longer be as protected as we once were. Recognizing this, it is time we begin to more closely examine this phenomenon.
+
+According to a study done by UCLA Law in 2022, “using survey data collected in May 2021 from 935 LGBT adults in the workforce” researchers found that about 75% of their 935 LGB adults said they experienced workplace discrimination (UCLA Law School Williams Institute, 2022). Interestingly, they also found that “higher rates of concealing LGB identity among bisexual employees may mask the extent to which bisexual employees experience unfair treatment at work” (Ibid). Notably, their study found that “cisgender bisexual and gay men often report higher rates of unfair treatment compared to lesbian and bisexual women” (Ibid). Overall, this study offers several key insights that inform the foundation of my research. Most importantly, it demonstrates that the non-heterosexual community should not be treated as a monolithic group, but rather as one with many nuances. It also highlights that levels of identity disclosure, particularly how “out” individuals are in the workplace, play a significant role in shaping reported experiences of discrimination.
+
+Similarly, studies from Hoel et al. (2021) found that LGB workers face higher risks of workplace discrimination than heterosexual employees, particularly in severe forms such as sexualized harassment and social exclusion, with lesbians and bisexual women most affected. It emphasizes “minority stress” as a more accurate framework than homophobia for understanding these experiences and highlights how disclosure of sexual identity can increase vulnerability to mistreatment.
+
+Building on both studies, this project seeks to move beyond these foundational insights. While existing research consistently finds that LGB individuals experience higher levels of workplace discrimination compared to their heterosexual counterparts, there remains important disagreement regarding how these experiences vary by gender. For instance, the UCLA Law School study finds that gay men report higher levels of workplace discrimination, whereas Hoel et al. report the inverse pattern. This divergence points to the need for further analysis.
+
+Moreover, prior research has often focused on a limited set of within-group differences—most notably gender—while paying less attention to how other social identities, such as race, age, income, and education, shape variation within the non-heterosexual community. To address this gap, this study examines how sexual orientation operates alongside multiple key social identities.
+
+### **1.6 Data Sets**
+
+In order to answer these predictive research questions, I am using data from the **2016** **General Social Survey (GSS).** Within my specific data subset, set to 2016 (the only year where individuals were asked both about their sexuality and workplace discrimination), there are 42 individuals who identified as gay, lesbian, or bisexual (Independent Variable) out of 1,188 total respondents (who answered both the sexuality and workplace discrimination questions). The unit of observation here is a unique individual. Key variables I will examine include whether respondents report experiencing workplace discrimination over the past five years (possible responses include: Yes \| No \| Inapplicable \| No answer \| Do not Know/Cannot Choose). (However, these choices are limited when sub setting the GSS data set to only respondents with definitive yes/no answers, thus removing Inapplicable, No answer, and Do not Know/Cannot Choose responses. As a result, this introduces the possibility of selection bias). Other control variables will include: race, age, education, and gender. Notably, the GSS data will be specifically used to compare the differences between non-heterosexual and heterosexual individuals.
+
+In order to more explicitly compare the results of individuals within the non-heterosexual community, I plan use the **Pew Research Center 2013 LGBT Survey** data set. In their surveying, Pew Research conducted an analysis of the experiences and attitudes of the non-heterosexual population between April 11th and 29th of 2013. In their survey they gathered a sample of 1,197 self-identified non-heterosexual adults, 18 years of age or older. The unit of observation is a unique LGB individual. The survey, conducted by the GfK Group using KnowledgePanel—its nationally representative online research panel—recruited through probability sampling methods. Key variables that I plan to utilize include: workplace discrimination, which includes responses: Yes, in past 12 months \| Yes, but not in past 12 months \| No, never happened. Additionally, sexual orientation, which included the categories: 1 = Lesbian \| 2 = Gay \| 3 = Bisexual. Lastly, my control variables which included: gender, age, race/ethnicity, education, income, and outness at work (how many coworkers know respondent is non-heterosexual).
+
+```{r}
+# Loading in the GSS data and libraries
+library(readxl)
+library(haven)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(modelsummary)
+library(ggeffects)
+library(survey)
+library(glmnet)
+library(pROC)
+library(caret)
+library(scales)
+
+gss_data <- read_excel("data/raw/result/result/GSS_data.xlsx")
+pew_data <- read_sav("data/raw/pew2013/pew2013lgbtpublicdatarelease.sav")
+```
+
+# **2. General Social Survey (GSS) Data (2016)**
+
+```{r}
+# Subsetting and cleaning the GSS data
+gss_cleaned <- gss_data |>
+  mutate(sexorient = case_when(sexornt %in% c("Gay, Lesbian or Homosexual", "Bisexual") ~ "Non-Heterosexual", 
+                               sexornt == "Heterosexual or straight" ~ "Heterosexual", TRUE ~ NA_character_),
+         discrim = case_when(discwk5 == "Yes" ~ 1, discwk5 == "No" ~ 0, TRUE ~ NA_real_),
+         gender = case_when(sex == "MALE" ~ "Male",sex == "FEMALE" ~ "Female",TRUE 
+                            ~ NA_character_),
+         race_clean = case_when(race == "White" ~ "White", race == "Black" ~ "Black", race == "Other" ~ "Other", TRUE ~ NA_character_), 
+         age = as.numeric(age), 
+         educ_years = case_when(
+  educ == "No formal schooling" ~ 0,
+  educ == "1st grade" ~ 1,
+  educ == "2nd grade" ~ 2,
+  educ == "3rd grade" ~ 3,
+  educ == "4th grade" ~ 4,
+  educ == "5th grade" ~ 5,
+  educ == "6th grade" ~ 6,
+  educ == "7th grade" ~ 7,
+  educ == "8th grade" ~ 8,
+  educ == "9th grade" ~ 9,
+  educ == "10th grade" ~ 10,
+  educ == "11th grade" ~ 11,
+  educ == "12th grade" ~ 12,
+  educ == "1 year of college" ~ 13,
+  educ == "2 years of college" ~ 14,
+  educ == "3 years of college" ~ 15,
+  educ == "4 years of college" ~ 16,
+  educ == "5 years of college" ~ 17,
+  educ == "6 years of college" ~ 18,
+  educ == "7 years of college" ~ 19,
+  educ == "8 or more years of college" ~ 20,
+  TRUE ~ NA_real_)) |>
+  filter(
+    !is.na(educ_years),
+    !is.na(sexorient),
+    !is.na(discrim),
+    !is.na(race_clean),
+    !is.na(age),
+    !is.na(gender))|>
+  mutate(sexorient = factor(sexorient), gender = factor(gender),
+         race_clean = factor(race_clean))
+```
+
+```{r}
+# First Summary Statistics (GSS)
+gss_cleaned |>
+  summarise(
+    `N (total)`  = n(),
+    `Mean Years of Education`  = round(mean(educ_years),1),
+    `Mean Discrimination Rate (%)` = round(mean(discrim, na.rm = TRUE) * 100, 1),
+    `Share Non-Heterosexual (%)`  = round(mean(sexorient == "Non-Heterosexual", na.rm = TRUE) * 100, 1),
+    `Mean Age`  = round(mean(age, na.rm = TRUE), 1),
+    `Share Male (%)`  = round(mean(gender == "Male", na.rm = TRUE) * 100, 1),
+    `Share White (%)`= round(mean(race_clean == "White", na.rm = TRUE) * 100, 1),
+    `Share Black (%)` = round(mean(race_clean == "Black", na.rm = TRUE) * 100, 1),
+    `Share Other Race (%)`= round(mean(race_clean == "Other", na.rm = TRUE) * 100, 1)) |>
+  pivot_longer(everything(), names_to = "Variable", values_to = "Value") |>
+  kable(booktabs = TRUE, caption = "2016 General Social Survey: Summary Statistics") |>
+  kable_styling(latex_options = c("striped", "hold_position"))
+
+```
+
+```{r}
+# Sexuality Specific Summary Statistics
+gss_cleaned |>
+  group_by(sexorient) |>
+  summarise(Individuals = n(), Discrimination_Rate = mean(discrim, na.rm = TRUE)) |>
+  mutate(Discrimination_Rate = round(Discrimination_Rate, 3) * 100) |>
+  rename(`Sexual Orientation` = sexorient,
+         `Number`= Individuals, 
+         `Discrimination Rate (%)` = Discrimination_Rate) |>
+  kable(booktabs = TRUE, caption = "(GSS) Discrimination Rate by Sexual Orientation") |>
+  kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+### 2.1 Comparing Baselines: Heterosexuals VS. Non-Heterosexuals
+
+```{r}
+# Comparing baselines
+gss_cleaned |>
+  group_by(sexorient) |>
+  summarise(
+    mean_age = round(mean(age), 3),
+    prop_male = round(mean(gender == "Male") * 100, 3),
+    prop_white = round(mean(race_clean == "White")* 100, 3),
+    prop_black = round(mean(race_clean == "Black")* 100, 3),
+    prop_other = round(mean(race_clean == "Other")* 100, 3),
+    mean_educ_years = round(mean(educ_years, ), 3)) |>
+  rename(
+    `Sexuality` = sexorient,
+    `Mean Age` = mean_age, 
+    `Male (%)` = prop_male,
+    `White (%)` = prop_white,
+    `Other Race (%)` = prop_other,
+    `Black (%)` = prop_black,
+    `Mean Education` = mean_educ_years) |>
+  kable(booktabs = TRUE, caption = "(GSS) Comparing Baselines: Heterosexuals VS. Non-Heterosexuals")|>
+  kable_styling(latex_options = c("striped", "scale_down"))
+```
+
+When comparing baseline characteristics between our two groups (heterosexual and non-heterosexual individuals), we can see that non-heterosexual individuals tend to be significantly younger (about 9 years) than our heterosexual individuals. Additionally, non-heterosexual individuals are proportionally less male (about 16 percentage points) and about equally White (about one percentage point of difference). However, they differ in the number of Black respondents, with non-heterosexual individuals having about 7 percentage points more black respondents than heterosexual individuals. Additionally, non-heterosexual individuals have about 15 percentage points less individuals of "Other Race". Lastly, they are about equal (less than one year of separation) in number of years of school completed. Therefore, noticing these differences in baseline characteristics, it will be necessary to control for age, gender, and race when running logistic regressions.
+
+### 2.2 Logistic Regression
+
+```{r}
+# Intial Regression | discrim ~ sexorient
+reg_1 <- glm(discrim ~ sexorient, data = gss_cleaned, family = "binomial")
+
+#Second Regression | discrim ~ sexorient + race + age + gender
+reg_2 <- glm(discrim ~ sexorient + race + age + gender + educ_years,
+             data = gss_cleaned,
+             family = "binomial")
+modelsummary(
+  list("Sexuality Only" = reg_1,
+       "+ Controls" = reg_2),
+  stars = TRUE,
+             statistic = "({std.error})",
+             title = "(GSS) Logistic Regression: Workplace Discrimination on Sexual Orientation with Controls", coef_rename = c("sexorientNon-Heterosexual" = "Non-Heterosexual",
+                             "raceOther" = "Other Race",
+                             "raceWhite" = "White",
+                             "age" = "Age",
+                             "genderMale" = "Male",
+                             "educ_years" = "Years of Education"))
+             
+```
+
+Using logistic regression, Table 4 examines the relationship between sexual orientation and the likelihood of reporting workplace discrimination. In the baseline model, the coefficient for non-heterosexual respondents is positive (0.357), indicating that individuals who identify as non-heterosexual have higher predicted log-odds of reporting workplace discrimination compared to heterosexual respondents. However, the estimate does not reach statistical significance. This means we cannot reject the null hypothesis of no effect with confidence. Importantly, this does not mean the effect is completely absent, but rather that the GSS sample contains too few non-heterosexual respondents (n = 42) to generate enough statistical power to confirm it.
+
+The second model adds race, age, gender, and years of completed education as predictors. The coefficient for non-heterosexual respondents (0.288) remains positive and barely moves from the baseline estimate (0.357), which is itself an important finding, telling us that the association between non-heterosexual identity and reported workplace discrimination is not substantially explained by demographic differences between the two groups. However, this estimate remains statistically insignificant.
+
+Among the control variables, race stands out as the most substantively important predictor. The coefficient for White respondents (-0.778) is negative and statistically significant at the 0.001 level, indicating that White individuals are significantly less likely to report workplace discrimination than Black respondents, who serve as the omitted reference category. The coefficient for "Other" race (-0.381) is also negative but does not reach significance. This racial pattern is important: it confirms that race is a stronger and more statistically reliable predictor of workplace discrimination in the GSS data than sexual orientation. Lastly, the coefficients for age (-0.006) and male gender (0.036) are small and non-significant.
+
+```{r,fig.pos="H"}
+# Get predicted probabilities with confidence intervals
+pred <- ggpredict(reg_2, terms = "sexorient")
+
+ggplot(pred, aes(x = x, y = predicted, ymin = conf.low, ymax = conf.high)) +
+  geom_point(size = 3, color = "black") +
+  geom_errorbar(width = 0.15, color = "black") +
+  labs(
+    title = "(GSS) Predicted Probability of Workplace Discrimination",
+    subtitle = "With 95% confidence intervals, controlling for race, age, and gender",
+    x = "Sexual Orientation",
+    y = "Predicted Probability",
+  caption = "Source: 2016 General Social Survey") +
+  theme_minimal()
+```
+
+The predicted probability plot illustrates these results visually. Both point estimates move in the expected direction: non-heterosexual individuals show a higher predicted probability of reporting workplace discrimination, but the confidence intervals overlap substantially, meaning the difference cannot be confirmed statistically. The notably wide interval for non-heterosexual individuals reflects the small sample size (n = 42). The GSS data results are thus directionally consistent with H1, but not able to confirm it.
+
+\*Note: A train/test split was not implemented for the GSS data given the small number of non-heterosexual respondents (n = 42). Thus, further reducing the training sample would severely compromise the already limited statistical power. In other words, the problem here is too little data, not overfitting.
+
+# **3. Pew Research Center Data (2013)**
+
+While the GSS analysis examined whether sexual orientation predicts workplace discrimination relative to heterosexual individuals, the Pew Research Center data allows for a more nuanced question lacking in the current literature: among non-heterosexual-identified adults, which factors predict report workplace discrimination? Because the Pew survey sampled only non-heterosexual individuals, it cannot replicate the heterosexual versus non-heterosexual comparison of the GSS data. Instead, it allows for a within-group analysis, examining whether being lesbian, gay, or bisexual, being more or less out at work, or having particular demographic characteristics predicts who within the non-heterosexual community is most likely to report workplace discrimination. Simply put, the GSS data attempts to establish that a gap exists between non-heterosexual and heterosexual individuals, while the Pew Research Center data examines the nuances of discrimination within the non-heterosexual community itself.
+
+```{r}
+# Cleaning the data set
+# Select study variables and filter to employed respondents
+pew_clean <- pew_data |>
+  select(LGBT, Q82_E, SEX, ppagecat, PPETHM, PPEDUCAT, INCOME, EMPLOY2, Q99, weight) |>
+  filter(EMPLOY2 %in% c(1, 2), LGBT != 4, SEX %in% c(1, 2))  
+# Employed full or part-time and removing transgender individuals since we're only looking at sexuality
+
+# Recode outcome: 1/2 = discriminated, 3 = not
+pew_clean <- pew_clean |> 
+  mutate(discriminated = case_when(Q82_E %in% c(1, 2) ~ 1, Q82_E == 3 ~ 0, TRUE ~ NA_real_),
+         outness = 5 - Q99,
+         SEX_lable = factor(SEX,levels = c(1, 2),labels = c("Male", "Female")),
+         INCOME = if_else(INCOME < 0, NA, INCOME),
+         PPEDUCAT = if_else(PPEDUCAT < 0, NA, PPEDUCAT),
+         LGBT_lable = factor(LGBT,
+                        levels = c(1, 2, 3),
+                        labels = c("Lesbian", "Gay", "Bisexual")))
+
+# Set up survey design with weights
+pew_svy <- svydesign(ids = ~1, weights = ~weight, data = pew_clean)
+```
+
+```{r}
+#General Summary Statistics
+#Remove EMPLOY2 from vars since sample is already filtered to employed
+vars <- c("LGBT", "SEX", "ppagecat", "PPETHM", "PPEDUCAT", "INCOME", "Q99")
+
+missing_vars <- vars[!vars %in% names(pew_clean)]
+if (length(missing_vars) > 0) stop("Missing variables: ", paste(missing_vars, collapse = ", "))
+
+N_total <- nrow(pew_clean)
+
+summary_full <- lapply(vars, function(v) {
+  f <- as.formula(paste0("~`", v, "`"))
+  tab <- svytable(f, pew_svy)
+  prop <- prop.table(tab)
+  
+  tibble(
+    Variable = v,
+    Category_num = as.numeric(names(prop)),
+    Value = round(as.numeric(prop) * 100, 1))}) |>
+  bind_rows() |>
+  mutate(
+    Variable = recode(Variable,
+      LGBT = "Sexuality",
+      SEX = "Gender",
+      ppagecat = "Age Group",
+      PPETHM = "Race/Ethnicity",
+      PPEDUCAT = "Education",
+      INCOME = "Income",
+      Q99 = "Coworkers Aware of Sexuality"),
+    
+    Category = case_when(
+      Category_num == -1 ~ "Refused / Missing",
+      Variable == "Sexuality" & Category_num == 1 ~ "Lesbian",
+      Variable == "Sexuality" & Category_num == 2 ~ "Gay",
+      Variable == "Sexuality" & Category_num == 3 ~ "Bisexual",
+      Variable == "Gender" & Category_num == 1 ~ "Male",
+      Variable == "Gender" & Category_num == 2 ~ "Female",
+      # Collapsed age groups
+      Variable == "Age Group" & Category_num %in% c(1,2) ~ "18–34",
+      Variable == "Age Group" & Category_num %in% c(3,4) ~ "35–54",
+      Variable == "Age Group" & Category_num %in% c(5,6,7) ~ "55+",
+      Variable == "Race/Ethnicity" & Category_num == 1 ~ "White, Non-Hispanic",
+      Variable == "Race/Ethnicity" & Category_num == 2 ~ "Black, Non-Hispanic",
+      Variable == "Race/Ethnicity" & Category_num == 3 ~ "Other, Non-Hispanic",
+      Variable == "Race/Ethnicity" & Category_num == 4 ~ "Hispanic",
+      Variable == "Race/Ethnicity" & Category_num == 5 ~ "Two or more races",
+      Variable == "Education" & Category_num == 1 ~ "< High School",
+      Variable == "Education" & Category_num == 2 ~ "High School",
+      Variable == "Education" & Category_num == 3 ~ "Some College",
+      Variable == "Education" & Category_num == 4 ~ "Bachelor's+",
+      # Collapsed income groups
+      Variable == "Income" & Category_num %in% c(1,2) ~ "< $30k",
+      Variable == "Income" & Category_num %in% c(3,4) ~ "$30k–50k",
+      Variable == "Income" & Category_num %in% c(5,6) ~ "$50k–100k",
+      Variable == "Income" & Category_num %in% c(7,8) ~ "$100k+",
+      Variable == "Coworkers Aware of Sexuality" & Category_num == 1 ~ "All/Most aware",
+      Variable == "Coworkers Aware of Sexuality" & Category_num == 2 ~ "Some aware",
+      Variable == "Coworkers Aware of Sexuality" & Category_num == 3 ~ "Few aware",
+      Variable == "Coworkers Aware of Sexuality" & Category_num == 4 ~ "None aware",
+      TRUE ~ as.character(Category_num))) |>
+  # Collapse the grouped categories by summing
+  group_by(Variable, Category) |>
+  summarise(Value = sum(Value), .groups = "drop") |>
+  filter(!is.na(Category), Category != "Refused / Missing") |>
+  select(Variable, Category, Value)
+
+summary_full <- bind_rows(
+  tibble(Variable = "Sample Size (Not in Percent)", Category = "Total Number", Value = N_total),
+  summary_full)
+
+kable(summary_full,
+      digits = 1,
+      align = "lc",
+      caption = "2013 Pew Research Center Data: Summary Statistics (In Percent)") |>
+  kable_styling(latex_options = c("striped", "hold_position"), font_size = 9)
+```
+
+```{r}
+plot_data_pew <- svyby(~discriminated, ~LGBT + SEX, pew_svy, svymean,
+                      na.rm = TRUE) |>
+  as.data.frame() |>
+  mutate(
+    discrimination_rate = discriminated * 100,
+    LGBT = factor(LGBT, levels = c(1,2,3),
+                  labels = c("Lesbian", "Gay", "Bisexual")),
+    SEX = factor(SEX, levels = c(1,2),
+                 labels = c("Male", "Female")),
+    # Create clean label: for lesbian/gay, identity implies gender
+    # For bisexual, show gender breakdown
+    group_label = case_when(
+      LGBT == "Lesbian" & SEX == "Female" ~ "Lesbian",
+      LGBT == "Gay"     & SEX == "Male"   ~ "Gay",
+      LGBT == "Bisexual" ~ paste("Bisexual\n", SEX),
+      TRUE ~ NA_character_  # drops impossible cells
+    )
+  ) |>
+  filter(!is.na(group_label))
+
+ggplot(plot_data_pew, aes(x = group_label, y = discrimination_rate,
+                         fill = LGBT)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  scale_y_continuous(limits = c(0, 30),  # adjust 30 so it doesn't cut off
+                     expand = c(0, 0)) +
+  geom_text(aes(label = paste0(round(discrimination_rate, 1), "%")),
+            vjust = -0.5, size = 3.5) +
+  scale_fill_manual(values = c("violetred1", "cadetblue3", "darkmagenta"),
+                    name = "Sexual Identity") +
+  labs(
+    title = "Workplace Discrimination by Sexual Identity and Gender",
+    subtitle = "Survey-weighted rates; gender shown for bisexual respondents only",
+    x = NULL,
+    y = "Reported Workplace Discrimination (%)",
+    caption = "Source: Pew Research Center 2013 LGBT Survey"
+  ) +
+  theme_minimal() +
+  theme(plot.margin = margin(t = 15, r = 10, b = 10, l = 10))  # so it doesn't cut off
+```
+
+The bar chart reveals meaningful variation in raw discrimination rates across sexual identity groups. Gay respondents (238) report the highest rate of workplace discrimination at 26.7%, followed by lesbians (192) at 21.7%. Bisexual respondents (314) report the lowest overall rate at 17.0%, though this also exhibits an important gender difference: bisexual women (18.6%) report notably higher discrimination than bisexual men (12.5%). This pattern is particularly interesting in light of the UCLA Williams Institute finding that bisexual employees conceal their identity at higher rates, and that bisexual men may under report discrimination precisely because fewer coworkers are aware of their identity. These raw rates are unadjusted for any controls, so they should be interpreted cautiously. The regression models that follow examine whether these patterns hold after accounting for demographic differences.
+
+### 3.1 Logistic Regression Models
+
+```{r}
+#Model 1: Just non-heterosexual identity
+pew_m1 <- svyglm(discriminated ~ LGBT_lable,
+                 design = pew_svy, family = quasibinomial())
+# Model 2: Add gender
+pew_m2 <- svyglm(discriminated ~ LGBT_lable + SEX_lable,
+                 design = pew_svy, family = quasibinomial())
+# Model 3: Add outness
+pew_m3 <- svyglm(discriminated ~ LGBT_lable + SEX_lable + outness,
+                 design = pew_svy, family = quasibinomial())
+# Model 4: Full model with controls
+pew_m4 <- svyglm(discriminated ~ LGBT_lable + SEX_lable + outness +
+                   ppagecat + factor(PPETHM) + factor(PPEDUCAT) + INCOME,
+                 design = pew_svy, family = quasibinomial())
+
+# Present all four side by side with clean labels
+modelsummary(
+  list("LGB only" = pew_m1,
+       "+ Gender" = pew_m2,
+       "+ Outness" = pew_m3,
+       "Full model" = pew_m4),
+  stars = TRUE,
+  statistic = "({std.error})",
+  title = "Predicting Workplace Discrimination: Pew 2013",
+  coef_rename = c(
+    "LGBT_lableGay" = "Gay",
+    "LGBT_lableBisexual"  = "Bisexual",
+    "SEX_lableFemale"= "Female",
+    "outness"= "Outness at Work",
+    "ppagecat" = "Age Group",
+    "factor(PPETHM)2"= "Black, Non-Hispanic",
+    "factor(PPETHM)3" = "Other, Non-Hispanic",
+    "factor(PPETHM)4" = "Hispanic",
+    "factor(PPETHM)5"  = "Two or More Races, Non-Hispanic",
+    "factor(PPEDUCAT)2"  = "High School",
+    "factor(PPEDUCAT)3" = "Some College",
+    "factor(PPEDUCAT)4" = "Bachelor's+",
+    "INCOME" = "Income"))
+```
+
+Table 6 presents four logistic regression models (logistic regression is the appropriate modeling choice here because the outcome variable is binary) predicting workplace discrimination among employed non-heterosexual adults in the 2013 Pew Research Center sample, each adding predictors sequentially to examine how the relationship between sexual identity and discrimination changes as controls are introduced.
+
+**Model 1 (Sexual Identity Only):** The baseline model examines whether specific sexual identity predicts discrimination. Gay respondents show higher predicted log-odds of reporting discrimination compared to lesbians (0.276), while bisexual respondents show slightly lower odds (-0.298). Neither estimate reaches statistical significance, suggesting that within the non-heterosexual community, specific sexual identity alone is not a strong predictor of discrimination.
+
+**Model 2 (+ Gender):** Adding gender produces a notable shift. The coefficient for gay respondents increases substantially from 0.276 to 0.747, suggesting that once gender is accounted for, the difference between gay and lesbian respondents becomes more pronounced. In other words, gay men report more discrimination than lesbian women. The positive coefficient for female (0.470) indicates that among bisexual respondents—the only group with both men and women—bisexual women report more discrimination than bisexual men, though this does not reach significance.
+
+**Model 3 (+ Outness):** The addition of outness at work produces a notable result. The coefficient for outness is positive and marginally significant (0.230, p \< 0.1), indicating that as a respondent becomes more out, reported workplace discrimination also increases.
+
+**Model 4 (Full Model):** The full model adds age, race, education, and income as controls. Outness remains positive and retains marginal significance (0.231). More notably, several race coefficients reach statistical significance. Black, Non-Hispanic respondents show a positive and significant coefficient (0.869, p \< 0.05), and respondents identifying as two or more races show a strikingly large and highly significant coefficient (2.124, p \< 0.001), both relative to White, Non-Hispanic respondents as the reference category. To put this in more intuitive terms: Black non-heterosexual respondents were about 2.4 times as likely to report workplace discrimination as White non-heterosexual respondents. Multiracial respondents were over eight times as likely. Even within the already-marginalized non-heterosexual community, Black and multiracial individuals face substantially higher predicted odds of reporting workplace discrimination, lending support to H2. Education also reaches significance, with high school graduates (-1.564, p \< 0.05) and those with a bachelor's degree or higher (-1.525, p \< 0.05) showing lower predicted odds of discrimination compared to those without a high school diploma, though this pattern warrants caution given potential confounding with variables such as occupational sector. Lastly, age, income, and specific sexual identity remain non-significant throughout.
+
+Taken together, the four models tell us that within the non-heterosexual community, workplace discrimination is not neatly stratified by sexual identity, gender, age, income, or education. The exceptions however are outness and race, which emerge as significant in the full model, underscoring that discrimination experiences within the non-heterosexual community are not uniform but are shaped meaningfully by the intersection of different characteristics.
+
+### 3.2 Regularized Regression
+
+To guard against overfitting and identify which predictors carry the most signal under penalization, three regularized models are also estimated (LASSO, Ridge, and Elastic Net) with LASSO as the primary model of interest given its ability to shrink coefficients to exactly zero, effectively performing variable selection.
+
+```{r}
+# Prepare modeling data
+pew_model_data <- pew_clean |>
+  mutate(PPETHM = factor(PPETHM),PPEDUCAT = factor(PPEDUCAT)) |>
+  select(discriminated, LGBT_lable, SEX_lable, ppagecat, 
+         PPETHM, PPEDUCAT, INCOME, outness) |>
+  filter(if_all(everything(), ~ !is.na(.)))
+
+# Train/test split
+set.seed(123)
+train_index <- createDataPartition(pew_model_data$discriminated, 
+                                   p = 0.7, list = FALSE)
+
+pew_train <- pew_model_data[train_index, ]
+pew_test  <- pew_model_data[-train_index, ]
+
+# Create summary table
+summary_table <- data.frame(
+  Sample = c("Full Sample", "Training Set", "Test Set"),
+  N = c(nrow(pew_model_data), nrow(pew_train), nrow(pew_test)),
+  `Discrimination Rate` = percent(c(
+    mean(pew_model_data$discriminated),
+    mean(pew_train$discriminated),
+    mean(pew_test$discriminated)), accuracy = 0.1))
+
+# Print nice table
+kable(summary_table, caption = "Modeling Sample and Train/Test Split Summary", align = c("l", "c", "c"))
+```
+
+```{r}
+# Build model matrices
+X_train <- model.matrix(
+  discriminated ~ SEX_lable + ppagecat + PPETHM + PPEDUCAT + INCOME + outness,
+  data = pew_train)[, -1]
+y_train <- pew_train$discriminated
+
+X_test <- model.matrix(
+  discriminated ~ SEX_lable + ppagecat + PPETHM + PPEDUCAT + INCOME + outness,
+  data = pew_test)[, -1]
+y_test <- pew_test$discriminated
+```
+
+```{r}
+# Null model baseline 
+null_accuracy <- max(mean(y_test == 1), mean(y_test == 0)) 
+kable(
+  data.frame(Model = "Null Model (always predict majority)", 
+             Accuracy = round(null_accuracy, 3)),
+  align = c("l", "c"),
+  caption = "Null Model Baseline Accuracy")
+```
+
+```{r}
+# LASSO (alpha = 1)
+set.seed(123)
+lasso_cv <- cv.glmnet(X_train, y_train, 
+                      alpha  = 1, 
+                      family = "binomial", 
+                      nfolds = 10)
+
+plot(lasso_cv)
+```
+
+```{r}
+#printing out the specifics
+lambda_table <- data.frame(Parameter = c("lambda.min", "lambda.1se"),Value = round(c(lasso_cv$lambda.min, lasso_cv$lambda.1se), 3))
+kable(lambda_table, caption = "LASSO")
+```
+
+```{r}
+# Which variables survive?
+lasso_coef <- coef(lasso_cv, s = "lambda.min")
+lasso_df <- as.data.frame(as.matrix(lasso_coef))
+lasso_df$Variable <- rownames(lasso_df)
+colnames(lasso_df)[1] <- "Coefficient"
+
+lasso_df <- lasso_df |>
+  mutate(Variable = case_when(
+      Variable == "(Intercept)" ~ "Intercept",
+      Variable == "outness" ~ "Outness",
+      Variable == "PPEDUCAT4" ~ "Bachelor's+",
+      Variable == "PPEDUCAT2" ~ "High School",
+      Variable == "SEX_lableFemale" ~ "Female (vs Male)",
+      Variable == "PPETHM5" ~ "Two or More Races, Non-Hispanic",
+      Variable == "PPETHM2" ~ "Black, Non-Hispanic",
+      Variable == "INCOME" ~ "Income",
+      TRUE ~ Variable)) |>
+  filter(Coefficient != 0) |>
+  select(Variable, Coefficient) |>
+  arrange(desc(abs(Coefficient)))
+
+
+kable(lasso_df, digits = 3, caption = "Non-zero LASSO Coefficients at Optimal Lambda (lambda.min)", align = c("l", "c"), row.names = FALSE)
+```
+
+```{r}
+#Ridge (alpha = 0)
+set.seed(123)
+ridge_cv <- cv.glmnet(X_train, y_train, 
+                      alpha  = 0, 
+                      family = "binomial", 
+                      nfolds = 10)
+
+# Elastic Net (alpha = 0.5)
+set.seed(123)
+enet_cv <- cv.glmnet(X_train, y_train, 
+                     alpha  = 0.5, 
+                     family = "binomial", 
+                     nfolds = 10)
+```
+
+```{r}
+# Performance metrics 
+get_metrics <- function(cv_model, X_test, y_test, label) {
+  pred_prob  <- predict(cv_model, newx = X_test,
+                        s = "lambda.min", 
+                        type = "response")[, 1]
+  pred_class <- ifelse(pred_prob > 0.5, 1, 0)
+  
+  tibble(
+    Model = label,
+    `Test Accuracy` = round(mean(pred_class == y_test), 3),
+    `Test AUC` = round(auc(roc(y_test, pred_prob, 
+                                    quiet = TRUE)), 3),
+    `Test RMSE` = round(sqrt(mean((y_test - pred_prob)^2)), 4),
+    `Lambda Min`= round(cv_model$lambda.min, 5))}
+
+metrics_table <- bind_rows(
+  get_metrics(lasso_cv, X_test, y_test, "LASSO"),
+  get_metrics(ridge_cv, X_test, y_test, "Ridge"),
+  get_metrics(enet_cv,  X_test, y_test, "Elastic Net"))
+
+metrics_table |>
+  kable(caption = "Out-of-sample prediction performance: Pew 2013 (70/30 split)") |>
+  kable_styling(latex_options = c("striped", "hold_position"))
+```
+
+```{r}
+# LASSO coefficient path plot 
+lasso_fit <- glmnet(X_train, y_train, alpha = 1, family = "binomial")
+
+coef_mat <- as.matrix(coef(lasso_fit))[-1, ]
+lambda_seq <- lasso_fit$lambda
+
+# Get survivors at lambda.min
+survivors <- rownames(lasso_coef)[lasso_coef[,1] != 0]
+survivors  <- survivors[survivors != "(Intercept)"]
+
+coef_df <- as_tibble(t(coef_mat)) |>
+  mutate(lambda = lambda_seq) |>
+  pivot_longer(-lambda, names_to = "variable", values_to = "coef") |>
+  mutate(highlighted = variable %in% survivors)
+
+ggplot(coef_df, aes(x = log(lambda), y = coef,
+                    group = variable,
+                    color = highlighted,
+                    linewidth = highlighted)) +
+  geom_line(alpha = 0.7) +
+  geom_vline(xintercept = log(lasso_cv$lambda.min),
+             linetype = "dashed", color = "#2166AC") +
+  scale_color_manual(
+    values = c("TRUE" = "#D6604D", "FALSE" = "gray70"),
+    labels = c("TRUE" = "Survives lambda.min", 
+               "FALSE" = "Shrinks to zero"),
+    name = NULL) +
+  scale_linewidth_manual(
+    values = c("TRUE" = 0.9, "FALSE" = 0.3), 
+    guide = "none") +
+  labs(
+    title    = "LASSO Coefficient Paths: Pew 2013",
+    subtitle = "Predictors of workplace discrimination among LGBT adults",
+    x        = "log(lambda) [<-- less regularization | more regularization -->]",
+    y        = "Coefficient",
+    caption  = "Vertical line: lambda chosen by 10-fold CV") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+```
+
+Three regularized models (LASSO, Ridge, and Elastic Net) were estimated on a 70% training subset of the Pew data (n = 508) and evaluated on the held-out 30% test set (n = 217), stratified by the outcome variable to maintain a consistent discrimination rate across subsets of approximately 20% (similar to baseline).
+
+Before interpreting performance, a null baseline is necessary: since 77.9% of test set respondents did not report discrimination, a model that always predicts "no discrimination" achieves 77.9% accuracy without learning anything from the data. All three regularized models match this baseline exactly at 77.9%, meaning they offer no improvement over simply predicting the majority class for every observation. The more informative metric is [AUC, which measures whether the model correctly ranks discriminated individuals above non-discriminated ones]{.underline}. AUC values of 0.639 (LASSO), 0.634 (Ridge), and 0.639 (Elastic Net) are above the 0.5 floor expected from a model with no predictive power, but well below the 0.7–0.8 threshold considered acceptable. The models extract some signal, but cannot reliably identify which non-heterosexual individuals will face workplace discrimination.
+
+While the models cannot reliably classify individuals, the coefficient estimates remain informative for a different purpose: identifying which variables carry the most signal in the data. Rather than treating the LASSO as a predictive tool, it is better understood here as a variable selection exercise that supports the logistic regression findings, and AUC, not accuracy, is the appropriate lens for evaluating whether any signal exists at all.
+
+The LASSO coefficient table and path plot reveal which predictors carry the most signal. Two or more races (0.721) and Black, Non-Hispanic (0.452) have the largest positive coefficients, followed by outness (0.372), together confirming that race and workplace visibility are the dominant predictors of discrimination within the non-heterosexual community. The path plot makes this hierarchy visually clear: as regularization increases and all predictors shrink toward zero, the multiracial and Black race coefficients and outness are the last to approach zero, meaning these are the variables the model holds onto longest under pressure. Education (Bachelor's+, -0.292) and gender (-0.115) survive penalization but with substantially smaller magnitudes, while income and high school education are nearly negligible. The consistency of these results across all three models, which perform nearly identically across accuracy, AUC, and RMSE, confirms that this pattern reflects a genuine feature of the data rather than a modeling artifact.
+
+Taken together, the regularized models deliver a clear message: most observable demographic characteristics do not reliably sort non-heterosexual individuals into higher or lower discrimination risk. The exceptions are race, particularly for Black and multiracial respondents, and outness, both of which survive penalization and support the logistic regression findings. Discrimination against non-heterosexual workers is broadly distributed across the community, driven more by employer bias toward non-heterosexual status in general than by identifiable characteristics of non-heterosexual individuals themselves.
+
+# **4. Limitations**
+
+Several limitations should be kept in mind. The most significant is the small number of non-heterosexual respondents in the GSS data (n = 42), which severely limits statistical power. Notably, the Pew Research Center data resolves this for within-group analysis but introduces its own constraints: because it samples only non-heterosexual adults, it cannot replicate the heterosexual comparison. Additionally, both data sets rely on self-reported discrimination, which is subject to underreporting. Finally, both data sets predate the Supreme Court's 2020 decision in Bostock v. Clayton County, which extended federal employment discrimination protections to sexual orientation and gender identity (Liptak, 2024), meaning the patterns documented here may not fully reflect the current environment.
+
+Future research should prioritize more recent data that postdates Bostock v. Clayton County, ideally a large-scale survey that includes both heterosexual and non-heterosexual respondents in sufficient numbers to enable the kind of comparison the GSS could not support here. A data set large enough to support intersectional subgroup analysis, for example, by examining Black gay men or multiracial bisexual women as distinct groups rather than controlling for race and sexuality separately, would allow researchers to more precisely quantify the compounding effects suggested by the race coefficients in the full Pew model. Additionally, incorporating objective measures of discrimination, such as audit studies or employer records, rather than relying solely on self-report, would also help address the underreporting concerns this analysis cannot fully resolve.
+
+# **5. Discussion**
+
+This paper set out to answer two questions: does sexual orientation predict workplace discrimination, and which factors within the non-heterosexual community are most associated with it? The findings, while largely statistically inconclusive, point in a meaningful direction.
+
+In the GSS data, non-heterosexual respondents were approximately 6.3 percentage points more likely to report workplace discrimination than heterosexual respondents, a gap that persisted after controlling for race, age, and gender, and is directionally consistent with H1. The failure to reach statistical significance reflects the limits of the available data, not the absence of an effect.
+
+In the Pew data, gay respondents reported the highest discrimination rates (26.7%), followed by lesbians (21.7%) and bisexual respondents. The bisexual gender gap, where bisexual women report more discrimination than bisexual men, is consistent with the UCLA Williams Institute's finding that sexuality identity concealment suppresses reported discrimination among bisexual men. Regarding H3, the directional evidence supports the hypothesis that non-heterosexual men (gay men) report more discrimination, but this does not reach statistical significance. Race emerges as a significant differentiator in the full model, with Black and multiracial respondents facing substantially higher odds of reported discrimination even within the non-heterosexual community, lending support to H2 and underscoring the compounding effects of racism and homophobia. Outness is a predictor across multiple model specifications, surviving both logistic regression significance testing and LASSO penalization, and confirming that workplace outness predicts reported discrimination experiences.
+
+The overarching conclusion is that discrimination against non-heterosexual workers is broadly distributed rather than concentrated among identifiable subgroups. Future policy choices cannot rely on targeting high-risk sub groups, they must address employer bias toward non-heterosexual status broadly. For gay men like myself entering the workforce in a shifting legal and political landscape, this is important information to keep in mind.
+
+**GitHub Repository Link:** <https://github.com/daniel-e-cabrera/GOV-51-Final-Project>
+
+\newpage
+
+References
+
+Hoel, Helge, Duncan Lewis, Anna Einarsdóttir. 2021. "Sexual Orientation and Workplace Bullying" *Dignity and Inclusion at Work*.
+
+Liptak, Adam. 2024. "A 2020 decision protecting transgender workers is a major precedent." *New York Times*. <https://www.nytimes.com/2024/12/04/us/bostock-decision-supreme-court.html>
+
+Mallory, Christy, Brad Sears, and Andrew Flores. 2022. "The Role of Sexual Orientation and Gender in Workplace Experiences of Cisgender LGB Employees." Los Angeles: *Williams Institute, UCLA School of Law*. <https://williamsinstitute.law.ucla.edu/publications/so-gender-discrimination-work/>.
+
+Marimow, Ann. 2025. "Supreme Court Same-Sex Marriage." *New York Times*. <https://www.nytimes.com/2025/11/07/us/politics/supreme-court-same-sex-marriage.html>.
+
+Pew Research Center. 2013. "A Survey of LGBT Americans: Attitudes, Experiences and Values in Changing Times." Dataset. Washington, DC: *Pew Research Center*. <https://www.pewresearch.org/social-trends/dataset/2013-lgbt-survey/>.
+
+Smith, Tom, Michael Davern, Jeremy Freese, and Stephen Morgan. 2016. *General Social Survey, 2016*. Chicago: NORC at the University of Chicago.
+
+Weistroffer Ross, Amy Raub, Aleta Sprague, Jody Heymann. 2025. "Mapping Progress in Workplace Protections: A Study of Global LGBTQI + Workplace Anti-discrimination Legislation in 2016 and 2023". *Sex Res Social Policy*; 22(4):1855-1868.
